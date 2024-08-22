@@ -7,7 +7,6 @@
       avatar: {
         src: "https://avatars.githubusercontent.com/u/739984?v=4",
       },
-      badge: 100,
     },
     {
       label: "Home",
@@ -15,7 +14,7 @@
     },
     {
       label: "Stages",
-      icon: "i-heroicons-chart-bar",
+      icon: "i-heroicons-academic-cap",
       to: `${
         route.path.startsWith("/dev") ? "/dev" : ""
       }/components/horizontal-navigation`,
@@ -26,5 +25,5 @@
 <template>
   <UHorizontalNavigation
     :links="links"
-    class="border-b border-gray-200 dark:border-gray-800" />
+    class="border-b border-orange-200 dark:border-orange-500" />
 </template>
