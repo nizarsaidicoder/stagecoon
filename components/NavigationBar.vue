@@ -25,5 +25,5 @@
 <template>
   <UHorizontalNavigation
     :links="links"
-    class="border-b border-orange-200 dark:border-orange-500" />
+    class="border-b border-primary-200 dark:border-primary-500" />
 </template>

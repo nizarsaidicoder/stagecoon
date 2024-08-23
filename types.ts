@@ -1,14 +1,14 @@
 export interface InternshipData {
-  subject: string;
-  tasks: string;
+  subject: string | null;
+  tasks: string | null;
   company: string;
-  postal_code: string;
+  postal_code: number | string;
   city: string;
-  tutor_last_name: string;
-  tutor_first_name: string;
-  tutor_email: string;
-  title: string;
-  description: string;
+  tutor_last_name: string | null;
+  tutor_first_name: string | null;
+  tutor_email: string | null;
+  title: string | null;
+  description: string | null;
   skills: string[];
   image: string;
 }
