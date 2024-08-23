@@ -15,7 +15,6 @@
   type Skills = {
     [key: string]: string;
   };
-  const typedSkills: Skills = skills;
   const { requirements } = defineProps(["requirements"]);
 </script>
 
