@@ -4,7 +4,8 @@
       base: ' min-w-[80vw] min-h-[70vh] flex items-center justify-center',
       background: 'bg-transparent dark:bg-transparent shadow-none ',
     }"
-    v-model="isOpen">
+    :modelValue="open"
+    @update:model-value="handleOpen">
     <div
       class="bg-white rounded-xl overflow-hidden flex gap-4 h-[100%] w-[100%]">
       <InternshipImage :image="data.image" />
@@ -28,8 +29,11 @@
   import InternshipImage from "./InternshipDetails/InternshipImage.vue";
   import InternshipInfos from "./InternshipDetails/InternshipInfos.vue";
   import InternshipExtraInfo from "./InternshipDetails/InternshipExtraInfo.vue";
-  const { data } = defineProps(["data"]);
-  const isOpen = ref<boolean>(true);
+  const { data, open, handleOpen } = defineProps([
+    "data",
+    "open",
+    "handleOpen",
+  ]);
 </script>
 
 <style></style>

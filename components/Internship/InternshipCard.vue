@@ -21,13 +21,15 @@
   </div>
   <InternshipDetails
     v-if="open"
-    :data="data" />
+    :open="open"
+    :data="data"
+    :handleOpen="handleOpen" />
 </template>
 
 <script setup lang="ts">
   const { data } = defineProps(["data"]);
   const open = ref<boolean>(false);
-  const handleOpen = () => (open.value = true);
+  const handleOpen = () => (open.value = !open.value);
 
   const computedText: ComputedRef<string | undefined> = computed(() => {
     return data.description?.slice(0, 85);

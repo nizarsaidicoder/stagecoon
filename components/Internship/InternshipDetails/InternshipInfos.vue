@@ -1,6 +1,6 @@
 <template>
   <div class="text-black h-[40rem] overflow-y-scroll scroll-smooth">
-    <div class="flex flex-col gap-4 p-8">
+    <div class="flex flex-col gap-4 py-12 px-6">
       <h2 class="text-3xl font-bold">
         {{ title || "Non renseigné" }}
       </h2>
