@@ -1,6 +1,16 @@
 <template>
   <div
-    class="bg-white text-black rounded-xl flex flex-col items-start gap-3 border-white border-2 pt-2 pb-6 px-2 max-w-[340px]">
+    class="bg-white text-black rounded-xl flex flex-col items-start gap-3 border-white border-2 pt-2 pb-6 px-2 max-w-[340px] card relative">
+    <div
+      class="rounded-full bg-white shadow-lg flex items-center justify-center absolute top-5 right-5 p-2 z-10 cursor-pointer"
+      @mouseover="hovered = true"
+      @mouseleave="hovered = false"
+      @click="favorite = !favorite">
+      <UIcon
+        name="i-heroicons-star-16-solid"
+        class="text-lg duration-200 ease-in-out"
+        :class="{ 'text-primary-500': hovered || favorite }" />
+    </div>
     <img
       :src="data.image"
       alt="Internship"
@@ -30,10 +40,26 @@
   const { data } = defineProps(["data"]);
   const open = ref<boolean>(false);
   const handleOpen = () => (open.value = !open.value);
+  const hovered = ref<boolean>(false);
+  const favorite = ref<boolean>(false);
 
   const computedText: ComputedRef<string | undefined> = computed(() => {
     return data.description?.slice(0, 85);
   });
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+  .card {
+    transition: all 0.3s;
+  }
+  .card:hover {
+    transform: scale(1.02);
+  }
+  .card img {
+    transition: all 01s;
+  }
+  .card:hover img {
+    /* zoom */
+    scale: 1.02;
+  }
+</style>

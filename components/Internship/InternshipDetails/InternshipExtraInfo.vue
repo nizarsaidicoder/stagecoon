@@ -1,6 +1,5 @@
 <template>
-  <div
-    class="flex flex-col gap-2 mt-2 bg-primary-300 border-2 border-black p-4 rounded-md">
+  <div class="flex flex-col gap-2 mt-2 border-2 border-black p-4 rounded-md">
     <h3 class="text-2xl font-bold">Informations officiels</h3>
     <div class="flex flex-col gap-2">
       <div class="flex gap-2 items-center">
