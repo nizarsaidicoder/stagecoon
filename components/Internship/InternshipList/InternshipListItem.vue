@@ -1,7 +1,11 @@
 <template>
   <div
-    class="bg-gray-900 py-4 px-6 w-[90%] text-white rounded-lg flex gap-4 cursor-pointer hover:backdrop-blur-md hover:backdrop hover:shadow-lg hover:outline hover:outline-primary-500 hover:outline-2 hover:translate-x-12 transition-all duration-200 ease-in-out animation"
+    class="relative bg-gray-900 py-4 px-6 w-[90%] text-white rounded-lg flex gap-4 cursor-pointer hover:backdrop-blur-md hover:backdrop hover:shadow-lg hover:outline hover:outline-primary-500 hover:outline-2 hover:translate-x-12 transition-all duration-200 ease-in-out animation"
     @click="handleOpen">
+    <Star
+      :favorite="favorite"
+      :setFavorite="handleFavorite"
+      @click="(e : Event) => e.stopPropagation()" />
     <NuxtImg
       :src="data.image"
       alt="internship"
@@ -33,6 +37,9 @@
   const { data } = defineProps(["data"]);
   const open = ref<boolean>(false);
   const handleOpen = () => (open.value = !open.value);
+
+  const favorite = ref<boolean>(false);
+  const handleFavorite = () => (favorite.value = !favorite.value);
   const desc = computed(() => data.description?.slice(0, 100));
 </script>
 

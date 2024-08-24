@@ -1,7 +1,7 @@
 <template>
   <div class="flex gap-10 py-6 px-4 max-h-[92vh]">
     <div class="min-w-[18%] border-r-2 border-primary-500 px-4">
-      <div class="flex flex-col gap-2">
+      <div class="flex flex-col gap-4">
         <h2 class="text-2xl font-bold">Filtres</h2>
         <div class="flex flex-col gap-2">
           <label for="viewType">View</label>
@@ -15,13 +15,15 @@
             v-model="order"
             :options="orders" />
         </div>
-
-        <UInput
-          icon="i-heroicons-magnifying-glass-20-solid"
-          size="sm"
-          color="white"
-          :trailing="false"
-          placeholder="Search..." />
+        <div class="flex flex-col gap-2">
+          <p>Search By Name</p>
+          <UInput
+            icon="i-heroicons-magnifying-glass-20-solid"
+            size="sm"
+            color="white"
+            :trailing="false"
+            placeholder="Search..." />
+        </div>
       </div>
     </div>
     <div

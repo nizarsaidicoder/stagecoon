@@ -1,16 +1,9 @@
 <template>
   <div
     class="bg-gray-900 text-white rounded-xl flex flex-col items-start justify-between gap-3 hover:outline hover:outline-primary-500 hover:outline-2 pt-2 pb-6 px-2 max-w-[340px] card relative animation">
-    <div
-      class="rounded-full bg-white shadow-lg flex items-center justify-center absolute top-5 right-5 p-2 z-10 cursor-pointer"
-      @mouseover="hovered = true"
-      @mouseleave="hovered = false"
-      @click="favorite = !favorite">
-      <UIcon
-        name="i-heroicons-star-16-solid"
-        class="text-lg duration-200 ease-in-out text-black"
-        :class="{ 'text-primary-500': hovered || favorite }" />
-    </div>
+    <Star
+      :favorite="favorite"
+      :setFavorite="handleFavorite" />
     <div class="flex flex-col gap-2">
       <div class="w-full zoom-image">
         <img
@@ -43,11 +36,13 @@
 
 <script setup lang="ts">
   import InternshipDetails from "@/components/Internship/InternshipDetails/InternshipDetails.vue";
+  import Star from "~/components/Star.vue";
   const { data } = defineProps(["data"]);
   const open = ref<boolean>(false);
   const handleOpen = () => (open.value = !open.value);
-  const hovered = ref<boolean>(false);
+
   const favorite = ref<boolean>(false);
+  const handleFavorite = () => (favorite.value = !favorite.value);
 
   const computedText: ComputedRef<string | undefined> = computed(() => {
     return data.description?.slice(0, 85);
