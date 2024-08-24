@@ -40,26 +40,21 @@
   import type { InternshipData } from "@/types.ts";
   import { useMyInternshipsStore } from "~/store/internships";
   const internshipsStore = useMyInternshipsStore();
-  const internships = ref<InternshipData[]>(internshipsStore.internships);
+  const internships = ref<InternshipData[]>([...internshipsStore.internships]);
   const viewType = ref<string>("Liste");
   const views = ["Liste", "Gallerie"];
   //  Date is the default order
   const order = ref<string>("date");
   const orders = ["title", "date"];
-  // console.log(
-  //   internships.value.filter(
-  //     (internship: InternshipData) => internship.title === null
-  //   )
-  // );
 
-  // const handleOrder = (order: string) => {
-  //   if (order === "title") {
-  //     internships.value = internshipsStore.internships.sort((a, b) =>
-  //       a.title.localeCompare(b.title)
-  //     );
-  //   } else {
-  //     internships.value = internshipsStore.internships;
-  //   }
-  // };
-  // watch(order, handleOrder, { immediate: true });
+  const handleOrder = (order: string) => {
+    if (order === "title") {
+      internships.value = internships.value.sort((a, b) =>
+        a.title.localeCompare(b.title)
+      );
+    } else {
+      internships.value = internships.value.sort((a, b) => a.id - b.id);
+    }
+  };
+  watch(order, handleOrder, { immediate: true });
 </script>
