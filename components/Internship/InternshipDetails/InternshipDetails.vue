@@ -7,7 +7,7 @@
     :modelValue="open"
     @update:model-value="handleOpen">
     <div
-      class="bg-white rounded-xl overflow-hidden flex gap-4 h-[100%] w-[100%]">
+      class="bg-gray-900  rounded-xl overflow-hidden flex gap-4 h-[100%] w-[100%]">
       <InternshipImage :image="data.image" />
       <InternshipInfos
         :title="data.title"

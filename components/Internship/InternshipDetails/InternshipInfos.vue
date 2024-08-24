@@ -1,5 +1,5 @@
 <template>
-  <div class="text-black h-[40rem] overflow-y-scroll scroll-smooth">
+  <div class="text-white h-[40rem] overflow-y-scroll scroll-smooth">
     <div class="flex flex-col gap-4 py-12 px-6">
       <h2 class="text-3xl font-bold">
         {{ title || "Non renseigné" }}
@@ -25,14 +25,14 @@
       </div>
       <div class="flex flex-col gap-2">
         <h3 class="text-2xl font-bold">Description</h3>
-        <p class="text-gray-700">{{ description || "Non renseigné" }}</p>
+        <p class="text-gray-300">{{ description || "Non renseigné" }}</p>
       </div>
 
       <div class="flex flex-col gap-1 flex-wrap">
         <h3 class="text-2xl font-bold">Compétences requises</h3>
         <InternshipSkills :requirements="requirements" />
       </div>
-      <UDivider label="" />
+      <UDivider label="Informations officiels" />
 
       <slot></slot>
     </div>

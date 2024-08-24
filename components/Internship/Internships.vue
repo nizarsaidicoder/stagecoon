@@ -77,10 +77,11 @@
   import InternshipCard from "@/components/Internship/InternshipCards/InternshipCard.vue";
   import InternshipCards from "@/components/Internship/InternshipCards/InternshipCards.vue";
   import InternshipListItem from "@/components/Internship/InternshipList/InternshipListItem.vue";
+
+  let internshipCount = 10;
   const internshipsStore = useMyInternshipsStore();
   const skills = Object.keys(internshipsStore.skills);
   const selectedSkills = ref<string[]>([]);
-  let internshipCount = 10;
   const internships = ref<InternshipData[]>([
     ...internshipsStore.internships.slice(0, internshipCount),
   ]);
@@ -91,6 +92,7 @@
   const buttonIsVisible = ref<boolean>(true);
   const search = ref<string>("");
   const city = ref<string>("");
+
   const loadMore = () => {
     const currentLength = internships.value.length;
     const nextInternships = internshipsStore.internships.slice(

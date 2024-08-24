@@ -1,6 +1,5 @@
 <template>
-  <div class="flex flex-col gap-2 mt-2 border-2 border-black p-4 rounded-md">
-    <h3 class="text-2xl font-bold">Informations officiels</h3>
+  <div class="flex flex-col gap-2 mt-2">
     <div class="flex flex-col gap-2">
       <div class="flex gap-2 items-center">
         <UIcon name="i-heroicons-user-16-solid" /> Tuteur :
@@ -12,9 +11,9 @@
       </div>
     </div>
     <h4 class="text-lg font-bold">Sujet :</h4>
-    <p class="text-gray-700">{{ subject || "Non renseingé" }}</p>
+    <p class="text-gray-300">{{ subject || "Non renseingé" }}</p>
     <h4 class="text-lg font-bold">Fontions & Tâches :</h4>
-    <p class="text-gray-700">{{ tasks || "Non renseingé" }}</p>
+    <p class="text-gray-300">{{ tasks || "Non renseingé" }}</p>
   </div>
 </template>
 
