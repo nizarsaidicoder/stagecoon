@@ -15,11 +15,8 @@
     {
       label: "Stages",
       icon: "i-heroicons-academic-cap",
-      to: `${
-        route.path.startsWith("/dev") ? "/dev" : ""
-      }/components/horizontal-navigation`,
     },
-  ]
+  ];
 </script>
 
 <template>

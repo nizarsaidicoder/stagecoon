@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-white text-black rounded-xl flex flex-col items-start justify-between gap-3 border-white border-2 pt-2 pb-6 px-2 max-w-[340px] card relative">
+    class="bg-gray-900 text-white rounded-xl flex flex-col items-start justify-between gap-3 hover:outline hover:outline-primary-500 hover:outline-2 pt-2 pb-6 px-2 max-w-[340px] card relative animation">
     <div
       class="rounded-full bg-white shadow-lg flex items-center justify-center absolute top-5 right-5 p-2 z-10 cursor-pointer"
       @mouseover="hovered = true"
@@ -8,7 +8,7 @@
       @click="favorite = !favorite">
       <UIcon
         name="i-heroicons-star-16-solid"
-        class="text-lg duration-200 ease-in-out"
+        class="text-lg duration-200 ease-in-out text-black"
         :class="{ 'text-primary-500': hovered || favorite }" />
     </div>
     <div class="flex flex-col gap-2">
@@ -21,7 +21,7 @@
 
       <div class="px-2 flex flex-col gap-1">
         <h2 class="text-xl font-bold">{{ data.title || "Non renseigné" }}</h2>
-        <p class="text-gray-700">
+        <p class="text-gray-400">
           {{ computedText || "Non renseigné" }}
           <span class="font-bold italic">...</span>
         </p>
@@ -42,6 +42,7 @@
 </template>
 
 <script setup lang="ts">
+  import InternshipDetails from "@/components/Internship/InternshipDetails/InternshipDetails.vue";
   const { data } = defineProps(["data"]);
   const open = ref<boolean>(false);
   const handleOpen = () => (open.value = !open.value);
@@ -77,5 +78,18 @@
   .zoom-image img {
     width: 100%;
     height: auto;
+  }
+  .animation {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 </style>

@@ -26,9 +26,9 @@
 </template>
 
 <script lang="ts" setup>
-  import InternshipImage from "./InternshipDetails/InternshipImage.vue";
-  import InternshipInfos from "./InternshipDetails/InternshipInfos.vue";
-  import InternshipExtraInfo from "./InternshipDetails/InternshipExtraInfo.vue";
+  import InternshipImage from "@/components/Internship/InternshipDetails/InternshipImage.vue";
+  import InternshipInfos from "@/components/Internship/InternshipDetails/InternshipInfos.vue";
+  import InternshipExtraInfo from "@/components/Internship/InternshipDetails/InternshipExtraInfo.vue";
   const { data, open, handleOpen } = defineProps([
     "data",
     "open",

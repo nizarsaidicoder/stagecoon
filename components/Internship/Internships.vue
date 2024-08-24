@@ -1,6 +1,6 @@
 <template>
-  <div class="flex gap-10 py-6 px-4">
-    <div class="w-[20%] border-r-2 border-primary-500 px-4">
+  <div class="flex gap-10 py-6 px-4 max-h-[92vh]">
+    <div class="min-w-[18%] border-r-2 border-primary-500 px-4">
       <div class="flex flex-col gap-2">
         <h2 class="text-2xl font-bold">Filtres</h2>
         <div class="flex flex-col gap-2">
@@ -25,20 +25,25 @@
       </div>
     </div>
     <div
-      class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 max-h-[100vh] overflow-y-scroll no-scrollbar"
-      v-if="viewType === 'Gallerie'">
-      <InternshipCard
-        v-for="internship in internships"
-        :key="internship.id"
-        :data="internship" />
-    </div>
-    <div
-      v-else-if="viewType === 'Liste'"
-      class="w-full flex flex-col gap-2 max-h-[100vh] overflow-y-scroll no-scrollbar">
-      <InternshipPane
-        v-for="internship in internships"
-        :key="internship.id"
-        :data="internship" />
+      class="max-h-[100vh] flex flex-col gap-4 overflow-y-scroll no-scrollbar">
+      <InternshipCards v-if="viewType === 'Gallerie'">
+        <InternshipCard
+          v-for="internship in internships"
+          :key="internship.id"
+          :data="internship" />
+      </InternshipCards>
+      <InternshipList v-else-if="viewType === 'Liste'">
+        <InternshipListItem
+          v-for="internship in internships"
+          :key="internship.id"
+          :data="internship" />
+      </InternshipList>
+      <UButton
+        color="primary"
+        class="self-center"
+        icon="i-heroicons:arrow-path-16-solid"
+        label="Load more"
+        @click="loadMore" />
     </div>
   </div>
 </template>
@@ -46,16 +51,31 @@
 <script lang="ts" setup>
   import type { InternshipData } from "@/types.ts";
   import { useMyInternshipsStore } from "~/store/internships";
+  import InternshipList from "@/components/Internship/InternshipList/InternshipList.vue";
+  import InternshipCard from "@/components/Internship/InternshipCards/InternshipCard.vue";
+  import InternshipCards from "@/components/Internship/InternshipCards/InternshipCards.vue";
+  import InternshipListItem from "@/components/Internship/InternshipList/InternshipListItem.vue";
+
   const internshipsStore = useMyInternshipsStore();
-  const internships = ref<InternshipData[]>([...internshipsStore.internships]);
+  // Do not load everything at once
+  const internships = ref<InternshipData[]>([
+    ...internshipsStore.internships.slice(0, 10),
+  ]);
+  const loadMore = () => {
+    const currentLength = internships.value.length;
+    const nextInternships = internshipsStore.internships.slice(
+      currentLength,
+      currentLength + 10
+    );
+    internships.value = [...internships.value, ...nextInternships];
+  };
   const viewType = ref<string>("Liste");
   const views = ["Liste", "Gallerie"];
-  //  Date is the default order
-  const order = ref<string>("date");
-  const orders = ["title", "date"];
+  const order = ref<string>("Date");
+  const orders = ["Title", "Date"];
 
   const handleOrder = (order: string) => {
-    if (order === "title") {
+    if (order === "Title") {
       internships.value = internships.value.sort((a, b) =>
         a.title.localeCompare(b.title)
       );
