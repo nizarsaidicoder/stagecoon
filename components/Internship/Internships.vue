@@ -1,6 +1,6 @@
 <template>
   <div class="flex gap-10 py-6 px-4 max-h-[92vh]">
-    <div class="min-w-[18%] border-r-2 border-primary-500 px-4">
+    <div class="min-w-[18%] max-w-[18%] border-r-2 border-primary-500 px-4">
       <div class="flex flex-col gap-4">
         <h2 class="text-2xl font-bold">Filtres</h2>
         <div class="flex flex-col gap-2">
@@ -16,14 +16,32 @@
             :options="orders" />
         </div>
         <div class="flex flex-col gap-2">
-          <p>Search By Name</p>
+          <p>Filtrer par ville / CP</p>
           <UInput
             icon="i-heroicons-magnifying-glass-20-solid"
             size="sm"
             color="white"
             :trailing="false"
-            placeholder="Search..."
+            placeholder="Ville / Code postal..."
+            v-model="city" />
+        </div>
+        <div class="flex flex-col gap-2">
+          <p>Rechercher par titre</p>
+          <UInput
+            icon="i-heroicons-magnifying-glass-20-solid"
+            size="sm"
+            color="white"
+            :trailing="false"
+            placeholder="Job..."
             v-model="search" />
+        </div>
+        <div class="flex flex-col gap-2">
+          <p>Rechercher par compétences</p>
+          <USelectMenu
+            v-model="selectedSkills"
+            :options="skills"
+            multiple
+            placeholder="Skills" />
         </div>
       </div>
     </div>
@@ -42,6 +60,7 @@
           :data="internship" />
       </InternshipList>
       <UButton
+        v-if="buttonIsVisible"
         color="primary"
         class="self-center"
         icon="i-heroicons:arrow-path-16-solid"
@@ -58,8 +77,9 @@
   import InternshipCard from "@/components/Internship/InternshipCards/InternshipCard.vue";
   import InternshipCards from "@/components/Internship/InternshipCards/InternshipCards.vue";
   import InternshipListItem from "@/components/Internship/InternshipList/InternshipListItem.vue";
-
   const internshipsStore = useMyInternshipsStore();
+  const skills = Object.keys(internshipsStore.skills);
+  const selectedSkills = ref<string[]>([]);
   // Do not load everything at once
   const internships = ref<InternshipData[]>([
     ...internshipsStore.internships.slice(0, 10),
@@ -87,7 +107,26 @@
     }
   };
   const search = ref<string>("");
+  const city = ref<string>("");
   watch(order, handleOrder, { immediate: true });
+
+  watch(city, (value) => {
+    // check if the input is a number
+    // if true filter by postal code
+    console.log(value);
+
+    if (!value) {
+      internships.value = internshipsStore.internships;
+      return;
+    }
+    if (value.length < 3) return;
+    internships.value = internshipsStore.internships.filter(
+      (internship) =>
+        internship.city.toLowerCase().includes(value.toLowerCase()) ||
+        internship.postal_code.toLowerCase().includes(value.toLowerCase())
+    );
+  });
+
   watch(search, (value) => {
     if (!value) {
       internships.value = internshipsStore.internships;
@@ -98,4 +137,32 @@
       internship.title.toLowerCase().includes(value.toLowerCase())
     );
   });
+  watch(selectedSkills, (value) => {
+    if (!value.length) {
+      internships.value = internshipsStore.internships;
+      return;
+    }
+    internships.value = internshipsStore.internships.filter((internship) =>
+      value.some((skill) => internship.skills.includes(skill))
+    );
+  });
+  const filterInternships = () => {
+    internships.value = internshipsStore.internships.filter((internship) => {
+      return (
+        internship.title.toLowerCase().includes(search.value.toLowerCase()) &&
+        (internship.city.toLowerCase().includes(city.value.toLowerCase()) ||
+          internship.postal_code
+            .toLowerCase()
+            .includes(city.value.toLowerCase())) &&
+        selectedSkills.value.some((skill) => internship.skills.includes(skill))
+      );
+    });
+  };
+
+  const buttonIsVisible = computed(
+    () =>
+      search.value.length < 3 &&
+      city.value.length < 3 &&
+      selectedSkills.value.length < 1
+  );
 </script>

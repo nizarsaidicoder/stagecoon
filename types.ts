@@ -3,7 +3,7 @@ export interface InternshipData {
   subject: string | null;
   tasks: string | null;
   company: string;
-  postal_code: number | string;
+  postal_code: string;
   city: string | null;
   tutor_last_name: string | null;
   tutor_first_name: string | null;
