@@ -22,7 +22,8 @@
             size="sm"
             color="white"
             :trailing="false"
-            placeholder="Search..." />
+            placeholder="Search..."
+            v-model="search" />
         </div>
       </div>
     </div>
@@ -85,5 +86,16 @@
       internships.value = internships.value.sort((a, b) => a.id - b.id);
     }
   };
+  const search = ref<string>("");
   watch(order, handleOrder, { immediate: true });
+  watch(search, (value) => {
+    if (!value) {
+      internships.value = internshipsStore.internships;
+      return;
+    }
+    if (value.length < 3) return;
+    internships.value = internshipsStore.internships.filter((internship) =>
+      internship.title.toLowerCase().includes(value.toLowerCase())
+    );
+  });
 </script>
