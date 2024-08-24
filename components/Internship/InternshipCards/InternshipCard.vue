@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-gray-900 text-white rounded-xl flex flex-col items-start justify-between gap-3 hover:outline hover:outline-primary-500 hover:outline-2 pt-2 pb-6 px-2 max-w-[340px] card relative animation">
+    class="bg-gray-900 relative text-white rounded-xl flex flex-col items-start justify-between gap-3 hover:outline hover:outline-primary-500 hover:outline-2 pt-2 pb-6 px-2 max-w-[340px] card animation">
     <Star
       :favorite="favorite"
       :setFavorite="handleFavorite" />
@@ -56,24 +56,7 @@
   .card:hover {
     transform: scale(1.02);
   }
-  .card img {
-    transition: all 01s;
-  }
-  .card:hover .zoom-image img {
-    width: 100%;
-    -webkit-transform: scale(1.3);
-    transform: scale(1.3);
-    -webkit-transition: 0.3s ease-in-out;
-    transition: 0.3s ease-in-out;
-  }
 
-  .zoom-image {
-    overflow: hidden;
-  }
-  .zoom-image img {
-    width: 100%;
-    height: auto;
-  }
   .animation {
     animation: fadeIn 0.5s ease-in-out;
   }
