@@ -15,19 +15,26 @@
             v-model="order"
             :options="orders" />
         </div>
+
+        <UInput
+          icon="i-heroicons-magnifying-glass-20-solid"
+          size="sm"
+          color="white"
+          :trailing="false"
+          placeholder="Search..." />
       </div>
     </div>
     <div
-      class="grid md:grid-cols-2 lg:grid-cols-4 gap-4"
+      class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 max-h-[100vh] overflow-y-scroll no-scrollbar"
       v-if="viewType === 'Gallerie'">
       <InternshipCard
         v-for="internship in internships"
-        :key="internship.image"
+        :key="internship.id"
         :data="internship" />
     </div>
     <div
       v-else-if="viewType === 'Liste'"
-      class="w-full flex flex-col gap-2">
+      class="w-full flex flex-col gap-2 max-h-[100vh] overflow-y-scroll no-scrollbar">
       <InternshipPane
         v-for="internship in internships"
         :key="internship.id"
