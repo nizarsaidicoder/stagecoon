@@ -9,6 +9,12 @@
             v-model="viewType"
             :options="views" />
         </div>
+        <div class="flex flex-col gap-2">
+          <label for="viewType">Order</label>
+          <USelect
+            v-model="order"
+            :options="orders" />
+        </div>
       </div>
     </div>
     <div
@@ -24,7 +30,7 @@
       class="w-full flex flex-col gap-2">
       <InternshipPane
         v-for="internship in internships"
-        :key="internship.image"
+        :key="internship.id"
         :data="internship" />
     </div>
   </div>
@@ -37,4 +43,23 @@
   const internships = ref<InternshipData[]>(internshipsStore.internships);
   const viewType = ref<string>("Liste");
   const views = ["Liste", "Gallerie"];
+  //  Date is the default order
+  const order = ref<string>("date");
+  const orders = ["title", "date"];
+  // console.log(
+  //   internships.value.filter(
+  //     (internship: InternshipData) => internship.title === null
+  //   )
+  // );
+
+  // const handleOrder = (order: string) => {
+  //   if (order === "title") {
+  //     internships.value = internshipsStore.internships.sort((a, b) =>
+  //       a.title.localeCompare(b.title)
+  //     );
+  //   } else {
+  //     internships.value = internshipsStore.internships;
+  //   }
+  // };
+  // watch(order, handleOrder, { immediate: true });
 </script>
