@@ -80,10 +80,17 @@
   const internshipsStore = useMyInternshipsStore();
   const skills = Object.keys(internshipsStore.skills);
   const selectedSkills = ref<string[]>([]);
-  // Do not load everything at once
+  let internshipCount = 10;
   const internships = ref<InternshipData[]>([
-    ...internshipsStore.internships.slice(0, 10),
+    ...internshipsStore.internships.slice(0, internshipCount),
   ]);
+  const viewType = ref<string>("Liste");
+  const views = ["Liste", "Gallerie"];
+  const order = ref<string>("Date");
+  const orders = ["Title", "Date"];
+  const buttonIsVisible = ref<boolean>(true);
+  const search = ref<string>("");
+  const city = ref<string>("");
   const loadMore = () => {
     const currentLength = internships.value.length;
     const nextInternships = internshipsStore.internships.slice(
@@ -91,11 +98,8 @@
       currentLength + 10
     );
     internships.value = [...internships.value, ...nextInternships];
+    internshipCount = internships.value.length;
   };
-  const viewType = ref<string>("Liste");
-  const views = ["Liste", "Gallerie"];
-  const order = ref<string>("Date");
-  const orders = ["Title", "Date"];
 
   const handleOrder = (order: string) => {
     if (order === "Title") {
@@ -106,63 +110,44 @@
       internships.value = internships.value.sort((a, b) => a.id - b.id);
     }
   };
-  const search = ref<string>("");
-  const city = ref<string>("");
-  watch(order, handleOrder, { immediate: true });
-
-  watch(city, (value) => {
-    // check if the input is a number
-    // if true filter by postal code
-    console.log(value);
-
-    if (!value) {
-      internships.value = internshipsStore.internships;
-      return;
-    }
-    if (value.length < 3) return;
-    internships.value = internshipsStore.internships.filter(
-      (internship) =>
-        internship.city.toLowerCase().includes(value.toLowerCase()) ||
-        internship.postal_code.toLowerCase().includes(value.toLowerCase())
-    );
-  });
-
-  watch(search, (value) => {
-    if (!value) {
-      internships.value = internshipsStore.internships;
-      return;
-    }
-    if (value.length < 3) return;
-    internships.value = internshipsStore.internships.filter((internship) =>
-      internship.title.toLowerCase().includes(value.toLowerCase())
-    );
-  });
-  watch(selectedSkills, (value) => {
-    if (!value.length) {
-      internships.value = internshipsStore.internships;
-      return;
-    }
-    internships.value = internshipsStore.internships.filter((internship) =>
-      value.some((skill) => internship.skills.includes(skill))
-    );
-  });
   const filterInternships = () => {
-    internships.value = internshipsStore.internships.filter((internship) => {
-      return (
-        internship.title.toLowerCase().includes(search.value.toLowerCase()) &&
-        (internship.city.toLowerCase().includes(city.value.toLowerCase()) ||
-          internship.postal_code
-            .toLowerCase()
-            .includes(city.value.toLowerCase())) &&
-        selectedSkills.value.some((skill) => internship.skills.includes(skill))
-      );
-    });
-  };
+    if (
+      city.value.length >= 3 ||
+      search.value.length >= 3 ||
+      selectedSkills.value.length >= 1
+    ) {
+      buttonIsVisible.value = false;
+      internships.value = internshipsStore.internships.filter((internship) => {
+        console.log(search.value);
 
-  const buttonIsVisible = computed(
-    () =>
-      search.value.length < 3 &&
-      city.value.length < 3 &&
-      selectedSkills.value.length < 1
-  );
+        const filterByCity =
+          city.value.length < 3
+            ? true
+            : internship.city.toLowerCase().includes(city.value.toLowerCase());
+        const filterBySearch =
+          search.value.length < 3
+            ? true
+            : internship.title
+                .toLowerCase()
+                .includes(search.value.toLowerCase());
+        const filterBySkills =
+          selectedSkills.value.length < 1
+            ? true
+            : selectedSkills.value.every((skill) =>
+                internship.skills.includes(skill)
+              );
+        return filterByCity && filterBySearch && filterBySkills;
+      });
+    } else {
+      buttonIsVisible.value = true;
+      internships.value = internshipsStore.internships.slice(
+        0,
+        internshipCount
+      );
+    }
+  };
+  watch(order, handleOrder, { immediate: true });
+  watch(city, filterInternships);
+  watch(search, filterInternships);
+  watch(selectedSkills, filterInternships);
 </script>
