@@ -19,7 +19,7 @@
         route.path.startsWith("/dev") ? "/dev" : ""
       }/components/horizontal-navigation`,
     },
-  ];
+  ]
 </script>
 
 <template>
