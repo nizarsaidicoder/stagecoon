@@ -47,6 +47,16 @@
     </div>
     <div
       class="max-h-[100vh] flex flex-col gap-4 overflow-y-scroll no-scrollbar">
+      <p
+        v-if="!buttonIsVisible"
+        class="text-lg text-white font-bold">
+        Stages trouvés : {{ internships.length }}
+      </p>
+      <p
+        v-else
+        class="text-lg text-white font-bold">
+        Stages trouvés : {{ internshipsStore.internships.length }}
+      </p>
       <InternshipCards v-if="viewType === 'Gallerie'">
         <InternshipCard
           v-for="internship in internships"
