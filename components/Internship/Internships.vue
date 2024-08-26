@@ -61,13 +61,15 @@
         <InternshipCard
           v-for="internship in internships"
           :key="internship.id"
-          :data="internship" />
+          :data="internship"
+          :saved="savedInternships.has(internship.id)" />
       </InternshipCards>
       <InternshipList v-else-if="viewType === 'Liste'">
         <InternshipListItem
           v-for="internship in internships"
           :key="internship.id"
-          :data="internship" />
+          :data="internship"
+          :saved="savedInternships.has(internship.id)" />
       </InternshipList>
       <UButton
         v-if="buttonIsVisible"
@@ -87,9 +89,14 @@
   import InternshipCard from "@/components/Internship/InternshipCards/InternshipCard.vue";
   import InternshipCards from "@/components/Internship/InternshipCards/InternshipCards.vue";
   import InternshipListItem from "@/components/Internship/InternshipList/InternshipListItem.vue";
+  // savedInternships.value =
+  //   savedInternships.value?.toString() ||
+  //   Math.round(Math.random() * 1000).toString();
+  // console.log(savedInternships);
 
   let internshipCount = 10;
   const internshipsStore = useMyInternshipsStore();
+  const savedInternships = ref(internshipsStore.savedInternships);
   const skills = Object.keys(internshipsStore.skills);
   const selectedSkills = ref<string[]>([]);
   const internships = ref<InternshipData[]>([

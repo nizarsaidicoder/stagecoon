@@ -29,18 +29,28 @@
     v-if="open"
     :open="open"
     :data="data"
+    :favorite="favorite"
+    :setFavorite="handleFavorite"
     :handleOpen="handleOpen" />
 </template>
 
 <script lang="ts" setup>
   import InternshipDetails from "@/components/Internship/InternshipDetails/InternshipDetails.vue";
-  const { data } = defineProps(["data"]);
+  const { data, saved } = defineProps(["data", "saved"]);
   const open = ref<boolean>(false);
   const handleOpen = () => (open.value = !open.value);
-
-  const favorite = ref<boolean>(false);
+  import { useMyInternshipsStore } from "~/store/internships";
+  const internshipsStore = useMyInternshipsStore();
+  const favorite = ref<boolean>(saved);
   const handleFavorite = () => (favorite.value = !favorite.value);
   const desc = computed(() => data.description?.slice(0, 100));
+  watch(favorite, (value) => {
+    if (value) {
+      internshipsStore.addInternship(data.id);
+    } else {
+      internshipsStore.removeInternship(data.id);
+    }
+  });
 </script>
 
 <style scoped>

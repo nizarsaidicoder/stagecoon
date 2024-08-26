@@ -7,7 +7,10 @@
     :modelValue="open"
     @update:model-value="handleOpen">
     <div
-      class="bg-gray-900  rounded-xl overflow-hidden flex gap-4 h-[100%] w-[100%]">
+      class="bg-gray-900 rounded-xl overflow-hidden flex gap-4 h-[100%] w-[100%] relative">
+      <Star
+        :favorite="favorite"
+        :setFavorite="handleFavorite" />
       <InternshipImage :image="data.image" />
       <InternshipInfos
         :title="data.title"
@@ -29,10 +32,12 @@
   import InternshipImage from "@/components/Internship/InternshipDetails/InternshipImage.vue";
   import InternshipInfos from "@/components/Internship/InternshipDetails/InternshipInfos.vue";
   import InternshipExtraInfo from "@/components/Internship/InternshipDetails/InternshipExtraInfo.vue";
-  const { data, open, handleOpen } = defineProps([
+  const { data, open, handleOpen, favorite, handleFavorite } = defineProps([
     "data",
     "open",
     "handleOpen",
+    "favorite",
+    "handleFavorite",
   ]);
 </script>
 
