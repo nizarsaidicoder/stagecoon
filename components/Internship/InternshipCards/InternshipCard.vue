@@ -1,9 +1,7 @@
 <template>
   <div
     class="bg-gray-900 relative text-white rounded-xl flex flex-col items-start justify-between gap-3 hover:outline hover:outline-primary-500 hover:outline-2 pt-2 pb-6 px-2 max-w-[340px] card animation">
-    <Star
-      :favorite="favorite"
-      :setFavorite="handleFavorite" />
+    <Star :id="data.id" />
     <div class="flex flex-col gap-2">
       <div class="w-full zoom-image">
         <img
@@ -31,33 +29,18 @@
     v-if="open"
     :open="open"
     :data="data"
-    :favorite="favorite"
-    :setFavorite="handleFavorite"
     :handleOpen="handleOpen" />
 </template>
 
 <script setup lang="ts">
   import InternshipDetails from "@/components/Internship/InternshipDetails/InternshipDetails.vue";
   import { useMyInternshipsStore } from "~/store/internships";
-  const internshipsStore = useMyInternshipsStore();
   import Star from "~/components/Star.vue";
-  const { data, saved } = defineProps(["data", "saved"]);
+  const { data } = defineProps(["data"]);
   const open = ref<boolean>(false);
   const handleOpen = () => (open.value = !open.value);
-
-  const favorite = ref<boolean>(saved);
-  const handleFavorite = () => (favorite.value = !favorite.value);
-
   const computedText: ComputedRef<string | undefined> = computed(() => {
     return data.description?.slice(0, 85);
-  });
-
-  watch(favorite, (value) => {
-    if (value) {
-      internshipsStore.addInternship(data.id);
-    } else {
-      internshipsStore.removeInternship(data.id);
-    }
   });
 </script>
 
