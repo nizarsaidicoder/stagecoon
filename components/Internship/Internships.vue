@@ -43,39 +43,36 @@
             multiple
             placeholder="Skills" />
         </div>
+        <div class="flex flex-col gap-2">
+          <p>Only saved Stages</p>
+          <UToggle v-model="onlySaved" />
+        </div>
       </div>
     </div>
     <div
       class="max-h-[100vh] flex flex-col gap-4 overflow-y-scroll no-scrollbar">
-      <p
-        v-if="!buttonIsVisible"
-        class="text-lg text-white font-bold">
+      <p class="text-lg text-white font-bold">
         Stages trouvés : {{ internships.length }}
-      </p>
-      <p
-        v-else
-        class="text-lg text-white font-bold">
-        Stages trouvés : {{ internshipsStore.internships.length }}
       </p>
       <InternshipCards v-if="viewType === 'Gallerie'">
         <InternshipCard
-          v-for="internship in internships"
+          v-for="internship in limitedInternships"
           :key="internship.id"
           :data="internship" />
       </InternshipCards>
       <InternshipList v-else-if="viewType === 'Liste'">
         <InternshipListItem
-          v-for="internship in internships"
+          v-for="internship in limitedInternships"
           :key="internship.id"
           :data="internship" />
       </InternshipList>
       <UButton
-        v-if="buttonIsVisible"
+        v-if="internships.length > max"
         color="primary"
         class="self-center"
         icon="i-heroicons:arrow-path-16-solid"
         label="Load more"
-        @click="loadMore" />
+        @click="incrementMax" />
     </div>
   </div>
 </template>
@@ -88,31 +85,24 @@
   import InternshipCards from "@/components/Internship/InternshipCards/InternshipCards.vue";
   import InternshipListItem from "@/components/Internship/InternshipList/InternshipListItem.vue";
 
-  let internshipCount = 10;
   const internshipsStore = useMyInternshipsStore();
   const skills = Object.keys(internshipsStore.skills);
   const selectedSkills = ref<string[]>([]);
-  const internships = ref<InternshipData[]>([
-    ...internshipsStore.internships.slice(0, internshipCount),
-  ]);
+  const internships = ref<InternshipData[]>([...internshipsStore.internships]);
   const viewType = ref<string>("Liste");
   const views = ["Liste", "Gallerie"];
   const order = ref<string>("Date");
   const orders = ["Title", "Date"];
-  const buttonIsVisible = ref<boolean>(true);
   const search = ref<string>("");
   const city = ref<string>("");
-
-  const loadMore = () => {
-    const currentLength = internships.value.length;
-    const nextInternships = internshipsStore.internships.slice(
-      currentLength,
-      currentLength + 10
-    );
-    internships.value = [...internships.value, ...nextInternships];
-    internshipCount = internships.value.length;
+  const onlySaved = ref<boolean>(false);
+  const max = ref(10);
+  const limitedInternships = computed(() =>
+    internships.value.slice(0, max.value)
+  );
+  const incrementMax = () => {
+    if (max.value < internships.value.length) max.value += 10;
   };
-
   const handleOrder = (order: string) => {
     if (order === "Title") {
       internships.value = internships.value.sort((a, b) =>
@@ -128,10 +118,7 @@
       search.value.length >= 3 ||
       selectedSkills.value.length >= 1
     ) {
-      buttonIsVisible.value = false;
       internships.value = internshipsStore.internships.filter((internship) => {
-        console.log(search.value);
-
         const filterByCity =
           city.value.length < 3
             ? true
@@ -151,13 +138,18 @@
         return filterByCity && filterBySearch && filterBySkills;
       });
     } else {
-      buttonIsVisible.value = true;
-      internships.value = internshipsStore.internships.slice(
-        0,
-        internshipCount
-      );
+      internships.value = internshipsStore.internships;
     }
   };
+  watch(onlySaved, (value) => {
+    if (value) {
+      internships.value = internshipsStore.internships.filter((internship) =>
+        internshipsStore.savedInternships.has(internship.id)
+      );
+    } else {
+      internships.value = internshipsStore.internships;
+    }
+  });
   watch(order, handleOrder, { immediate: true });
   watch(city, filterInternships);
   watch(search, filterInternships);
