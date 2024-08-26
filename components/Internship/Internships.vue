@@ -116,7 +116,8 @@
     if (
       city.value.length >= 3 ||
       search.value.length >= 3 ||
-      selectedSkills.value.length >= 1
+      selectedSkills.value.length >= 1 ||
+      onlySaved.value
     ) {
       internships.value = internshipsStore.internships.filter((internship) => {
         const filterByCity =
@@ -135,21 +136,18 @@
             : selectedSkills.value.every((skill) =>
                 internship.skills.includes(skill)
               );
-        return filterByCity && filterBySearch && filterBySkills;
+        const filterBySaved = onlySaved.value
+          ? internshipsStore.savedInternships.has(internship.id)
+          : true;
+        return (
+          filterByCity && filterBySearch && filterBySkills && filterBySaved
+        );
       });
     } else {
       internships.value = internshipsStore.internships;
     }
   };
-  watch(onlySaved, (value) => {
-    if (value) {
-      internships.value = internshipsStore.internships.filter((internship) =>
-        internshipsStore.savedInternships.has(internship.id)
-      );
-    } else {
-      internships.value = internshipsStore.internships;
-    }
-  });
+  watch(onlySaved, filterInternships);
   watch(order, handleOrder, { immediate: true });
   watch(city, filterInternships);
   watch(search, filterInternships);
