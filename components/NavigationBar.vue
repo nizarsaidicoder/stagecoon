@@ -11,10 +11,17 @@
     {
       label: "Home",
       icon: "i-heroicons-home",
+      to: "/",
     },
     {
-      label: "Stages",
-      icon: "i-heroicons-academic-cap",
+      label: "Database",
+      icon: "i-heroicons-circle-stack",
+      to: "/database",
+    },
+    {
+      label: "Generate",
+      icon: "i-heroicons-cube",
+      to: "/generate",
     },
   ];
 </script>
