@@ -20,8 +20,15 @@
         ><InternshipExtraInfo
           :tutor_first_name="data.tutor_first_name"
           :tutor_last_name="data.tutor_last_name"
-          :tutor_email="data.tutor_email"
-      /></InternshipInfos>
+          :tutor_email="data.tutor_email" />
+        <UButton
+          @click="redirect"
+          color="primary"
+          class="self-start"
+          icon="i-heroicons-document-text-16-solid"
+          label="Lettre de motivation"
+          size="sm" />
+      </InternshipInfos>
     </div>
   </UModal>
 </template>
@@ -35,6 +42,17 @@
     "open",
     "handleOpen",
   ]);
+  const router = useRouter();
+  const redirect = () => {
+    const payload = {
+      entrepriseNom: data.company,
+      entrepriseMail: data.tutor_email,
+      entrepriseRecruteur: data.tutor_first_name + " " + data.tutor_last_name,
+      stageTitre: data.title,
+      stageDescription: data.description,
+    };
+    router.push({ name: "generate", query: payload });
+  };
 </script>
 
 <style></style>

@@ -40,6 +40,9 @@
                 placeholder="Adress postal" />
             </div>
           </div>
+          <UToggle
+            v-model="isRemember"
+            label="Se souvenir de moi" />
         </div>
         <h3 class="text-3xl font-bold mt-5">
           Les informations de l'entreprise
@@ -113,16 +116,16 @@
 
 <script lang="ts" setup>
   const output = ref("");
-  const entrepriseNom = ref("");
-  const entrepriseMail = ref("");
-  const entrepriseRecruteur = ref("");
-  const stageTitre = ref("");
-  const stageDescription = ref("");
-  const nom = ref("");
-  const prenom = ref("");
-  const telephone = ref("");
-  const mail = ref("");
-  const address = ref("");
+  const entrepriseNom: Ref<string> = ref("");
+  const entrepriseMail: Ref<string> = ref("");
+  const entrepriseRecruteur: Ref<string> = ref("");
+  const stageTitre: Ref<string> = ref("");
+  const stageDescription: Ref<string> = ref("");
+  const nom: Ref<string> = ref("");
+  const prenom: Ref<string> = ref("");
+  const telephone: Ref<string> = ref("");
+  const mail: Ref<string> = ref("");
+  const address: Ref<string> = ref("");
   const isGenerating = ref(false);
   const generateLettre = async function () {
     isGenerating.value = true;
@@ -149,6 +152,41 @@
     output.value = result;
     isGenerating.value = false;
   };
+  const isObjectEmpty = (objectName: Object) => {
+    return Object.keys(objectName).length === 0;
+  };
+  const router = useRouter();
+  // check if there is a payload when the page is loaded
+  if (!isObjectEmpty(router.currentRoute.value.query)) {
+    // parse the payload
+    const {
+      payloadNom,
+      payloadMail,
+      payloadRecruteur,
+      payloadTitre,
+      payloadDescription,
+    } = router.currentRoute.value.query;
+    // set the values
+    entrepriseNom.value = payloadNom as string;
+    entrepriseMail.value = payloadMail as string;
+    entrepriseRecruteur.value = (payloadRecruteur as string) || "";
+    stageTitre.value = payloadTitre as string;
+    stageDescription.value = (payloadDescription as string) || "";
+  }
+  onMounted(() => {
+    // check if there is a payload when the page is loaded
+    const cookies = useCookie("user");
+    if (cookies.value) {
+      const { nom, prenom, telephone, mail, address } = JSON.parse(
+        cookies.value
+      );
+      nom.value = nom;
+      prenom.value = prenom;
+      telephone.value = telephone;
+      mail.value = mail;
+      address.value = address;
+    }
+  });
 </script>
 
 <style></style>
