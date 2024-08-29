@@ -37,12 +37,30 @@
       label: "Skills",
     },
   ];
+  const query = ref("");
+
+  const filteredRows = computed(() => {
+    if (!query.value) {
+      return interships;
+    }
+
+    return interships.filter((intern) => {
+      return Object.values(intern).some((value) => {
+        return String(value).toLowerCase().includes(query.value.toLowerCase());
+      });
+    });
+  });
 </script>
 
 <template>
+  <div class="flex px-3 py-3.5 border-b border-gray-200 dark:border-gray-700">
+    <UInput
+      v-model="query"
+      placeholder="Rechercher ..." />
+  </div>
   <UTable
     :columns="columns"
-    :rows="interships"
+    :rows="filteredRows"
     :ui="{
       td: {
         size: 'max-w-[20rem] overflow-x-scroll no-scrollbar',
