@@ -53,23 +53,25 @@
 </script>
 
 <template>
-  <div class="flex px-3 py-3.5 border-b border-gray-200 dark:border-gray-700">
-    <UInput
-      v-model="query"
-      placeholder="Rechercher ..." />
+  <div class="">
+    <div class="flex px-3 py-3.5 border-b border-gray-200 dark:border-gray-700">
+      <UInput
+        v-model="query"
+        placeholder="Rechercher ..." />
+    </div>
+    <UTable
+      :columns="columns"
+      :rows="filteredRows"
+      :ui="{
+        td: {
+          size: 'max-w-[20rem] overflow-x-scroll no-scrollbar',
+        },
+      }">
+      <template #expand="{ row }">
+        <div class="p-4">
+          <pre>{{ row }}</pre>
+        </div>
+      </template></UTable
+    >
   </div>
-  <UTable
-    :columns="columns"
-    :rows="filteredRows"
-    :ui="{
-      td: {
-        size: 'max-w-[20rem] overflow-x-scroll no-scrollbar',
-      },
-    }">
-    <template #expand="{ row }">
-      <div class="p-4">
-        <pre>{{ row }}</pre>
-      </div>
-    </template></UTable
-  >
 </template>

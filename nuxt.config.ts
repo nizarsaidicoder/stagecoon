@@ -4,9 +4,10 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   css: ["/public/assets/main.css"],
   modules: ["@nuxt/ui", "@pinia/nuxt", "@formkit/auto-animate", "@nuxt/image"],
-  image: {
-    // provider: "static",
-    // dir: "public/images",
-    provider: "ipx",
+  app: {
+    pageTransition: {
+      name: "rotate",
+      mode: "out-in",
+    },
   },
 });
