@@ -1,5 +1,5 @@
 <template>
-  <div class="z-100 w-[90rem] mx-auto mt-12 flex flex-col gap-12 mb">
+  <div class="z-100 w-[90rem] mx-auto mt-12 flex flex-col gap-12 mb-12 cursor">
     <h1 class="text-5xl font-bold">
       Lettre de motivation en quelques instants...
     </h1>
@@ -78,21 +78,33 @@
         </div>
         <div class="flex flex-col gap-2 items-center">
           <UButton
+            v-if="!isGenerating"
             @click="generateLettre"
             color="primary"
             icon="i-heroicons-arrow-right-16-solid"
             size="lg">
             Générer
           </UButton>
+          <UButton
+            v-else
+            color="primary"
+            size="lg"
+            loading>
+            Générer
+          </UButton>
         </div>
       </div>
-      <div class="flex flex-col gap-5 w-[40rem] h-[50rem]">
+      <div class="flex flex-col gap-5 w-[40rem]">
         <UTextarea
-          color="primary"
-          class="h-[50rem]"
+          color="gray"
+          disabled
+          :ui="{
+            base: 'h-full disabled:cursor-text',
+            wrapper: 'h-full ',
+          }"
           variant="outline"
           size="xl"
-          placeholder="Search..."
+          placeholder="Lettre de motivation..."
           v-model="output" />
       </div>
     </div>
@@ -100,7 +112,7 @@
 </template>
 
 <script lang="ts" setup>
-  const output = ref("Gello");
+  const output = ref("");
   const entrepriseNom = ref("");
   const entrepriseMail = ref("");
   const entrepriseRecruteur = ref("");
@@ -111,8 +123,9 @@
   const telephone = ref("");
   const mail = ref("");
   const address = ref("");
-
+  const isGenerating = ref(false);
   const generateLettre = async function () {
+    isGenerating.value = true;
     const data = {
       nom: nom.value,
       prenom: prenom.value,
@@ -125,7 +138,6 @@
       stageTitre: stageTitre.value,
       stageDescription: stageDescription.value,
     };
-    // POST request to the server
     const response = await fetch("/api/generate/motivation", {
       method: "POST",
       headers: {
@@ -135,6 +147,7 @@
     });
     const result = await response.text();
     output.value = result;
+    isGenerating.value = false;
   };
 </script>
 
