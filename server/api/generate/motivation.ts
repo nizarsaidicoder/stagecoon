@@ -5,7 +5,9 @@ export default defineEventHandler(async (event) => {
   const data = await readBody(event);
   const prompt = `
   Generate a professional French cover letter ('Lettre de Motivation') using the following information:
-  Etudiant en deuxieme annee de BUT Informatique à l'iut de robert schuman
+  Etudiant en deuxieme annee de BUT Informatique, parcours réalisation, conception et developpement des applications; à l'iut de robert schuman
+  Période du stage : entre le 15 avril 2025 et le 28 juin 2025 (50 jours ouvrés)
+  Durée du stage : au minimum 50 jours ouvrés (maximum 60)
   - Nom: ${data.nom ? data.nom : "Non spécifié"}
   - Prénom: ${data.prenom ? data.prenom : "Non spécifié"}
   - Téléphone: ${data.telephone ? data.telephone : "Non spécifié"}
@@ -20,11 +22,6 @@ export default defineEventHandler(async (event) => {
   - Nom du recruteur: ${
     data.entrepriseRecruteur ? data.entrepriseRecruteur : "Non spécifié"
   }
-  - Titre du stage: ${data.stageTitre ? data.stageTitre : "Non spécifié"}
-  - Description du stage: ${
-    data.stageDescription ? data.stageDescription : "Non spécifié"
-  }
-
   Ensure the letter is well-structured, polite, and that it gracefully handles any missing information. The cover letter should be formatted appropriately for a job application in France. and do not give anything else beside the letter itself. Just the letter.
   `;
 

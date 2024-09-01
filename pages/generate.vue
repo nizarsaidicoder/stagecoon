@@ -40,7 +40,7 @@
                 placeholder="Adress postal" />
             </div>
           </div>
-          <UToggle
+          <UCheckbox
             v-model="isRemember"
             label="Se souvenir de moi" />
         </div>
@@ -127,7 +127,22 @@
   const mail: Ref<string> = ref("");
   const address: Ref<string> = ref("");
   const isGenerating = ref(false);
+  const isRemember = ref(false);
   const generateLettre = async function () {
+    if (isRemember.value) {
+      const userData = {
+        nom: nom.value,
+        prenom: prenom.value,
+        telephone: telephone.value,
+        mail: mail.value,
+        address: address.value,
+      };
+      const cookies = useCookie("user");
+      cookies.value = JSON.stringify(userData);
+    } else {
+      const cookies = useCookie("user");
+      cookies.value = "";
+    }
     isGenerating.value = true;
     const data = {
       nom: nom.value,
@@ -157,34 +172,53 @@
   };
   const router = useRouter();
   // check if there is a payload when the page is loaded
-  if (!isObjectEmpty(router.currentRoute.value.query)) {
-    // parse the payload
-    const {
-      payloadNom,
-      payloadMail,
-      payloadRecruteur,
-      payloadTitre,
-      payloadDescription,
-    } = router.currentRoute.value.query;
-    // set the values
-    entrepriseNom.value = payloadNom as string;
-    entrepriseMail.value = payloadMail as string;
-    entrepriseRecruteur.value = (payloadRecruteur as string) || "";
-    stageTitre.value = payloadTitre as string;
-    stageDescription.value = (payloadDescription as string) || "";
-  }
+  onBeforeMount(() => {
+    if (!isObjectEmpty(router.currentRoute.value.query)) {
+      // parse the payload
+      console.log(router.currentRoute.value.query);
+
+      const {
+        payloadNom,
+        payloadMail,
+        payloadRecruteur,
+        payloadTitre,
+        payloadDescription,
+      } = router.currentRoute.value.query;
+      // set the values
+      entrepriseNom.value = payloadNom as string;
+      entrepriseMail.value = payloadMail as string;
+      entrepriseRecruteur.value = payloadRecruteur as string;
+      stageTitre.value = payloadTitre as string;
+      stageDescription.value = payloadDescription as string;
+    }
+  });
+
+  // if (!isObjectEmpty(router.currentRoute.value.query)) {
+  //   // parse the payload
+  //   const {
+  //     payloadNom,
+  //     payloadMail,
+  //     payloadRecruteur,
+  //     payloadTitre,
+  //     payloadDescription,
+  //   } = router.currentRoute.value.query;
+  //   // set the values
+  //   entrepriseNom.value = payloadNom as string;
+  //   entrepriseMail.value = payloadMail as string;
+  //   entrepriseRecruteur.value = (payloadRecruteur as string) || "";
+  //   stageTitre.value = payloadTitre as string;
+  //   stageDescription.value = (payloadDescription as string) || "";
+  // }
   onMounted(() => {
     // check if there is a payload when the page is loaded
     const cookies = useCookie("user");
     if (cookies.value) {
-      const { nom, prenom, telephone, mail, address } = JSON.parse(
-        cookies.value
-      );
-      nom.value = nom;
-      prenom.value = prenom;
-      telephone.value = telephone;
-      mail.value = mail;
-      address.value = address;
+      isRemember.value = true;
+      nom.value = cookies.value.nom;
+      prenom.value = cookies.value.prenom;
+      telephone.value = cookies.value.telephone;
+      mail.value = cookies.value.mail;
+      address.value = cookies.value.address;
     }
   });
 </script>

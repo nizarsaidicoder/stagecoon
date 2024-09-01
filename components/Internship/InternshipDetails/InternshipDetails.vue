@@ -45,11 +45,11 @@
   const router = useRouter();
   const redirect = () => {
     const payload = {
-      entrepriseNom: data.company,
-      entrepriseMail: data.tutor_email,
-      entrepriseRecruteur: data.tutor_first_name + " " + data.tutor_last_name,
-      stageTitre: data.title,
-      stageDescription: data.description,
+      payloadNom: data.company,
+      payloadMail: data.tutor_email,
+      payloadRecruteur: data.tutor_last_name || null,
+      payloadTitre: data.title,
+      payloadDescription: data.description,
     };
     router.push({ name: "generate", query: payload });
   };
