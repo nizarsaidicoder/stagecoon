@@ -1,9 +1,7 @@
 <template>
-  <Internships />
+  <div></div>
 </template>
 
-<script lang="ts" setup>
-  import Internships from "@/components/Internship/Internships.vue";
-</script>
+<script lang="ts" setup></script>
 
 <style></style>

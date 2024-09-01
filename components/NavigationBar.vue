@@ -8,6 +8,11 @@
       to: "/",
     },
     {
+      label: "Stages",
+      icon: "i-heroicons-clipboard",
+      to: "/stages",
+    },
+    {
       label: "Database",
       icon: "i-heroicons-circle-stack",
       to: "/database",
@@ -16,6 +21,11 @@
       label: "Generate",
       icon: "i-heroicons-cube",
       to: "/generate",
+    },
+    {
+      label: "Informations",
+      icon: "i-heroicons-information-circle",
+      to: "/informations",
     },
   ];
 </script>
