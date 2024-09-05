@@ -10,7 +10,12 @@
         </p>
         <p class="mt-4 text-lg">
           Il a pour but de permettre aux étudiants de la formation de consulter
-          les ancien stages effectués par les étudiants de la formation
+          les ancien stages effectués par les étudiants de la formation. Ainsi
+          qu'il offre la possibilité de rédiger des lettres de motivations en
+          quelques instants grace à une interface simple et intuitive.
+        </p>
+        <p class="mt-4 text-lg">
+          Le site est open source, et tout le monde est invité à contribuer !
         </p>
       </div>
       <div class="bg-white dark:bg-gray-900 rounded-lg shadow-lg p-4">
