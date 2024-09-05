@@ -27,6 +27,11 @@
       icon: "i-heroicons-information-circle",
       to: "/informations",
     },
+    {
+      label:"Offres disponibles",
+      icon:"i-heroicons:arrow-path-16-solid",
+      to: "/offres"
+    }
   ];
 </script>
 

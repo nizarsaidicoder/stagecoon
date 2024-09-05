@@ -48,7 +48,7 @@
           Les informations de l'entreprise
         </h3>
         <div class="flex gap-4 flex-wrap">
-          <div class="flex flex-col gap-2">
+          <!-- <div class="flex flex-col gap-2">
             <label> Titre du stage </label>
             <UInput
               v-model="stageTitre"
@@ -59,7 +59,7 @@
             <UInput
               v-model="stageDescription"
               placeholder="Description..." />
-          </div>
+          </div> -->
           <div class="flex flex-col gap-2">
             <label> Nom de l'entreprise </label>
             <UInput
