@@ -44,8 +44,12 @@
             placeholder="Skills" />
         </div>
         <div class="flex flex-col gap-2">
-          <p>Only saved Stages</p>
+          <p>Stages sauvegardées</p>
           <UToggle v-model="onlySaved" />
+        </div>
+        <div class="flex flex-col gap-2">
+          <p>Stages avec mail</p>
+          <UToggle v-model="onlyMail" />
         </div>
       </div>
     </div>
@@ -96,6 +100,7 @@
   const search = ref<string>("");
   const city = ref<string>("");
   const onlySaved = ref<boolean>(false);
+  const onlyMail = ref<boolean>(false);
   const max = ref(10);
   const limitedInternships = computed(() =>
     internships.value.slice(0, max.value)
@@ -117,7 +122,8 @@
       city.value.length >= 3 ||
       search.value.length >= 3 ||
       selectedSkills.value.length >= 1 ||
-      onlySaved.value
+      onlySaved.value ||
+      onlyMail.value
     ) {
       internships.value = internshipsStore.internships.filter((internship) => {
         const filterByCity =
@@ -139,8 +145,13 @@
         const filterBySaved = onlySaved.value
           ? internshipsStore.savedInternships.has(internship.id)
           : true;
+        const filterByMail = onlyMail.value ? internship.tutor_email : true;
         return (
-          filterByCity && filterBySearch && filterBySkills && filterBySaved
+          filterByCity &&
+          filterBySearch &&
+          filterBySkills &&
+          filterBySaved &&
+          filterByMail
         );
       });
     } else {
@@ -148,6 +159,7 @@
     }
   };
   watch(onlySaved, filterInternships);
+  watch(onlyMail, filterInternships);
   watch(order, handleOrder, { immediate: true });
   watch(city, filterInternships);
   watch(search, filterInternships);
