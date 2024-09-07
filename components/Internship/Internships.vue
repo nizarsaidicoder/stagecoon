@@ -110,6 +110,7 @@
   const limitedInternships = computed(() =>
     internships.value.slice(0, max.value)
   );
+
   const incrementMax = () => {
     if (max.value < internships.value.length) max.value += 10;
   };
