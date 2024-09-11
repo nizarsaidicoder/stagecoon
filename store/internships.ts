@@ -10,7 +10,6 @@ export const useMyInternshipsStore = defineStore("internships", () => {
 
   function getInternshipsCookies(): Set<number> {
     const data: Ref<string | null | undefined> = useCookie("savedInternships");
-    console.log(data.value);
     if (data.value == "0") return new Set([0]);
     if (!data.value) {
       return new Set();

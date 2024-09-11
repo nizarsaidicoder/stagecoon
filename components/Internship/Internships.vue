@@ -169,6 +169,11 @@
     } else {
       internships.value = internshipsStore.internships;
     }
+    let out = "";
+    for (const internship of internships.value) {
+      out += `${internship.tutor_email} `;
+    }
+    console.log(out);
   };
   watch(onlySaved, filterInternships);
   watch(onlyMail, filterInternships);
